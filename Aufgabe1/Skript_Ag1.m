@@ -22,8 +22,10 @@ M;
 
 
 
-moewe=imread('moewex.jpg');
+moewe = imread('moewex.jpg');
 bryce = imread('bryce.jpg');
+
+
 moewe_red = moewe(:,:,1);
 moewe_green = moewe(:,:,2);
 moewe_blue = moewe(:,:,3);
@@ -36,10 +38,11 @@ moewe2 = rgb2hsi(moewe);
 moewe2_red = moewe2(:,:,1);
 moewe2_green = moewe2(:,:,2);
 moewe2_blue = moewe2(:,:,3);
+
 showQuadView(moewe2,moewe2_red,moewe2_green,moewe2_blue)
 
 moewe2_binary = ((moewe2_red < 0.4) + (moewe2_green < 0.2) + (moewe2_blue < 0.3)) > 0;
-moewe2_binary_inversed = ((moewe2_red < 0.4) + (moewe2_green < 0.2) + (moewe2_blue < 0.3)) == 0;
+moewe2_binary_inversed = moewe2_binary == 0;
 figure
 imshow(moewe2_binary)
 moewe_muster = repmat(uint8(moewe2_binary), [1 1 3]);
@@ -48,7 +51,9 @@ moewe_muster2 = repmat(uint8(moewe2_binary_inversed), [1 1 3]);
 background = bryce .* moewe_muster2;
 figure
 imshow(moewe_only)
-imshow(background)
 figure
-final = imadd(moewe_only,bryce);
+imshow(background)
+
+figure
+final = background + moewe_only;
 imshow(final)
